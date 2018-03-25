@@ -60,6 +60,40 @@ class Point(object):
         return Point(self.x,self.y)
 
 
+    def move_to(self,x,y):
+        self.x=x
+        self.y=y
+
+
+    def move_by(self,dx,dy):
+        self.x=self.x+dx
+        self.y=self.y+dy
+
+
+
+    def get_distance_from(self,point):
+        disx=point.x-self.x
+        disy=point.y-self.y
+        dissq=(disx**2)+(disy**2)
+        dis=dissq**0.5
+        return dis
+
+
+    def closer_to(self, p2, p3):
+        dis2=self.get_distance_from(p2)
+        dis3=self.get_distance_from(p3)
+        if dis2 <= dis3:
+            return p2
+        if dis2 > dis3:
+            return p3
+
+
+    def halfway_to(self,point):
+        disx = point.x - self.x
+        disy = point.y - self.y
+        hadisx=disx*0.5
+        hadisy=disy*0.5
+        return Point(self.x+hadisx,self.y+hadisy)
 
 
 def run_test_init():
@@ -377,14 +411,44 @@ def run_test_move_to():
             print('*** FAILED: This method should have had no value returned! ***')
     """
     # ------------------------------------------------------------------
-    # TODO: 6.  Follow the same instructions as in TO-DO 3 above,
+    # Done: 6.  Follow the same instructions as in TO-DO 3 above,
     #           but for the  move_to  method specified above.
     # ------------------------------------------------------------------
     print()
     print('-----------------------------------------------------------')
     print('Testing the   move_to   method of the Point class.')
     print('-----------------------------------------------------------')
+    p1 = Point(10, 8)
+    p2 = Point(50, 20)
+    print()
+    print('Expected for p1: Point(10, 8)')
+    print('Actual for p1:  ', p1)
+    print('Expected for p2: Point(50, 20)')
+    print('Actual for p2:  ', p2)
 
+    p1.move_to(5, -1)
+    p2.move_to(0, 0)
+    print()
+    print('Expected for p1: Point(5, -1)')
+    print('Actual for p1:  ', p1)
+    print('Expected for p2: Point(0, 0)')
+    print('Actual for p2:  ', p2)
+
+    p2.y = 99
+    print()
+    print('Expected for p1: Point(5, -1)')
+    print('Actual for p1:  ', p1)
+    print('Expected for p2: Point(0, 99)')
+    print('Actual for p2:  ', p2)
+
+    check_has_no_return = p2.move_to(0, 222)
+    print()
+    print('Expected for p1: Point(5, -1)')
+    print('Actual for p1:  ', p1)
+    print('Expected for p2: Point(0, 222)')
+    print('Actual for p2:  ', p2)
+    if check_has_no_return is not None:
+        print('*** FAILED: This method should have had no value returned! ***')
 
 def run_test_move_by():
     """
@@ -439,13 +503,44 @@ def run_test_move_by():
             print('*** FAILED: This method should have had no value returned! ***')
     """
     # ------------------------------------------------------------------
-    # TODO: 7.  Follow the same instructions as in TO-DO 3 above,
+    # Done: 7.  Follow the same instructions as in TO-DO 3 above,
     #           but for the  move_by  method specified above.
     # ------------------------------------------------------------------
     print()
     print('-----------------------------------------------------------')
     print('Testing the   move_by   method of the Point class.')
     print('-----------------------------------------------------------')
+    p1 = Point(10, 8)
+    p2 = Point(50, 20)
+    print()
+    print('Expected for p1: Point(10, 8)')
+    print('Actual for p1:  ', p1)
+    print('Expected for p2: Point(50, 20)')
+    print('Actual for p2:  ', p2)
+
+    p1.move_by(5, -1)
+    p2.move_by(0, 0)
+    print()
+    print('Expected for p1: Point(15, 7)')
+    print('Actual for p1:  ', p1)
+    print('Expected for p2: Point(50, 20)')
+    print('Actual for p2:  ', p2)
+
+    p2.move_by(200, 0)
+    print()
+    print('Expected for p1: Point(15, 7)')
+    print('Actual for p1:  ', p1)
+    print('Expected for p2: Point(250, 20)')
+    print('Actual for p2:  ', p2)
+
+    check_has_no_return = p2.move_by(-100, 300)
+    print()
+    print('Expected for p1: Point(15, 7)')
+    print('Actual for p1:  ', p1)
+    print('Expected for p2: Point(150, 320)')
+    print('Actual for p2:  ', p2)
+    if check_has_no_return is not None:
+        print('*** FAILED: This method should have had no value returned! ***')
 
 
 def run_test_get_number_of_moves_made():
@@ -580,13 +675,51 @@ def run_test_get_distance_from():
         print('Actual   p2 to p4:', p2.get_distance_from(p4))
     """
     # ------------------------------------------------------------------
-    # TODO: 9.  Follow the same instructions as in TO-DO 3 above,
+    # Done: 9.  Follow the same instructions as in TO-DO 3 above,
     #    but for the  get_distance_from  method specified above.
     # ------------------------------------------------------------------
     print()
     print('-----------------------------------------------------------')
     print('Testing the  get_distance_from  method of the Point class.')
     print('-----------------------------------------------------------')
+    p1 = Point(1, 5)
+    p2 = Point(10, 5)
+    p3 = Point(13, 9)
+
+    print()
+    print('Expected p1 to p2: 9.0')
+    print('Actual   p1 to p2:', p1.get_distance_from(p2))
+
+    print()
+    print('Expected p2 to p3: 5.0')
+    print('Actual   p2 to p3:', p2.get_distance_from(p3))
+    print('Expected p3 to p2: 5.0')
+    print('Actual   p3 to p2:', p3.get_distance_from(p2))
+
+    print()
+    print('Expected p1 to p3: about 12.65')
+    print('Actual   p1 to p3:', p1.get_distance_from(p3))
+    print('Expected p3 to p1: about 12.65')
+    print('Actual   p3 to p1:', p3.get_distance_from(p1))
+
+    print()
+    print('Expected p1 to p1: 0.0')
+    print('Actual   p1 to p1:', p1.get_distance_from(p1))
+    print('Expected p2 to p2: 0.0')
+    print('Actual   p2 to p2:', p2.get_distance_from(p2))
+    print('Expected p3 to p3: 0.0')
+    print('Actual   p3 to p3:', p3.get_distance_from(p3))
+
+    p4 = p1.clone()
+    print()
+    print('Expected p1 to p4: 0.0')
+    print('Actual   p1 to p4:', p1.get_distance_from(p4))
+    print('Expected p4 to p1: 0.0')
+    print('Actual   p4 to p1:', p4.get_distance_from(p1))
+    print('Expected p4 to p2: 9.0')
+    print('Actual   p4 to p2:', p4.get_distance_from(p2))
+    print('Expected p2 to p4: 9.0')
+    print('Actual   p2 to p4:', p2.get_distance_from(p4))
 
 
 def run_test_get_distance_from_start():
@@ -747,13 +880,40 @@ def run_test_closer_to():
         print('Actual:  ', p1.closer_to(p4, p5) is p5)
     """
     # ------------------------------------------------------------------
-    # TODO: 12.  Follow the same instructions as in TO-DO 3 above,
+    # Done: 12.  Follow the same instructions as in TO-DO 3 above,
     #    but for the  closer_to  method specified above.
     # ------------------------------------------------------------------
     print()
     print('-----------------------------------------------------------')
     print('Testing the   closer_to   method of the Point class.')
     print('-----------------------------------------------------------')
+    p1 = Point(10, 20)
+    p2 = Point(15, 20)
+    p3 = Point(14, 24)
+
+    print()
+    print('Expected:', p2)
+    print('Actual:  ', p1.closer_to(p2, p3))
+    print('Expected:', p2)
+    print('Actual:  ', p1.closer_to(p3, p2))
+
+    print()
+    print('Expected:', p1)
+    print('Actual:  ', p1.closer_to(p1, p3))
+    print('Expected:', p2)
+    print('Actual:  ', p2.closer_to(p3, p2))
+    print('Expected:', p3)
+    print('Actual:  ', p3.closer_to(p3, p3))
+
+    print()
+    p4 = p1.clone()
+    p5 = p1.clone()
+    print('Expected:', p4)
+    print('Actual:  ', p1.closer_to(p4, p5))
+    print('Expected: True')
+    print('Actual:  ', p1.closer_to(p4, p5) is p4)
+    print('Expected: False')
+    print('Actual:  ', p1.closer_to(p4, p5) is p5)
 
 
 def run_test_halfway_to():
@@ -803,13 +963,38 @@ def run_test_halfway_to():
 
     """
     # ------------------------------------------------------------------
-    # TODO: 13.  Follow the same instructions as in TO-DO 3 above,
+    # Done: 13.  Follow the same instructions as in TO-DO 3 above,
     #    but for the  halfway_to  method specified above.
     # ------------------------------------------------------------------
     print()
     print('-----------------------------------------------------------')
     print('Testing the   halfway_to   method of the Point class.')
     print('-----------------------------------------------------------')
+    p1 = Point(10, 20)
+    p2 = Point(30, 100)
+
+    print()
+    print('Should be: Point(20.0, 60.0)')
+    print('Actual is:', p1.halfway_to(p2))
+    print('Should be: Point(20.0, 60.0)')
+    print('Actual is:', p2.halfway_to(p1))
+
+    print()
+    print('Should be: Point(10.0, 20.0)')
+    print('Actual is:', p1.halfway_to(p1))
+
+    p3 = Point(-10, 20)
+    p4 = Point(30, -100)
+
+    print()
+    print('Should be: Point(10.0, -40.0)')
+    print('Actual is:', p3.halfway_to(p4))
+    print('Should be: Point(10.0, -40.0)')
+    print('Actual is:', p3.halfway_to(p4))
+
+    print()
+    print('Should be: Point(-10.0, 20.0)')
+    print('Actual is:', p3.halfway_to(p3))
 
 
 # ----------------------------------------------------------------------
